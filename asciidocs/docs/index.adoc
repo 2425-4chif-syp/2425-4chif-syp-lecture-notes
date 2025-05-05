@@ -151,10 +151,14 @@ Im nginx wird eine website gehosted die per rest auf das quarkus-backend zugreif
 - z.B.: `3.7.11`
 - Ist: `major.minor.patch`
 - *Patch*: Nur Bugfixes, kein extra Feature, Backward-Compatibility ist gegeben
-- *Minor*: Extra Feature, aber noch immer Backwards-Compatible
+o- *Minor*: Extra Feature, aber noch immer Backwards-Compatible
 - *Major*: Änderung(en), bei dem es sein kann, dass alter Code nicht mehr funktioniert
 - https://semver.org/
 
 ==== Calendaric Versioning
 - Anders zu Semantic Versioning wird mit *Kalendardaten* versioniert
 - https://calver.org/
+
+=== Docker Container
+- Wenn ein Container am laufen ist, muss man möglicherweise Portfreigaben machen im `docker-compose.yaml`-File.
+- In einem Container reinkommen: `docker exec -it [container] bash`
