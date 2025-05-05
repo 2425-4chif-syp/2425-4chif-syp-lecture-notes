@@ -93,18 +93,68 @@ Virtualisierung bezeichnet in der Informatik die Nachbildung eines Hard- oder So
 
 Im nginx wird eine website gehosted die per rest auf das quarkus-backend zugreift. Ein HTML-Formular wird angezeigt, welches einen Namen entgegennimmt und diesen an das quarkus-backend sendet. Das quarkus-backend gibt den Namen zurück und loggt ihn auf die Console.
 
+== 2025-05-05 - Dependencies & Docker
 
+=== Uber-Jar
+- Jar-File
+- Enthält:
+* alle Dependencies
+* `manifest.xml`, in dem die Klasse mit der `main()`-Methode angegeben ist
 
+=== Dependencies
+- In `pom.xml`
+- Unser Programm benutzt Methoden einer Library
+- Wir haben diese Library nicht geschrieben, also ist das für uns nur eine Abhängigkeit (Dependency)
+- *Scope*: Wo gehört diese Dependency dazu, was gehört in mein entgültiges Produkt und was nicht? 
+* `compile` (Standardwert), `provided`, `runtime`, `system`, `test` (nur für Tests)
 
+=== Marshalling
+- Umwandeln von Java-Objekte in JSON-Objekte 
+- *Unmarshalling*: JSON zu Java
+- Eine Form von _Serialization_
+- In Java mit bspw. Jackson 
 
+=== Docker
+- Plan ist Java-Code als *Image* in ein Image-Repository (DHCR). 
+- Um das auf unseren Server zu bekommen: Mit Docker-Compose (Erweiterung von Docker-Run) kann man die einzelnen Container koordinieren ("orchestrieren") 
+- Container rennen in einem eigenen *Docker-Netzwerk*. Jeder Container hat eine eigene IP in einem eigenen Addressbereich. 
+- Zuerst lokal ausprobieren, wenn das funktioniert automatisieren wir es mit GitHub Actions.
 
+=== Dockerfile
+- **Dockerfile**: Baut Docker Image 
+- Im `compose`-Ordner werden alle Projekte per Docker zusammengefasst. 
+- *Multi-Stage*: Mehrere Stufen, z.B. dass wir uns zuerst Maven reinholen, dann nur das `pom.xml` und `src` reinkopieren, 
+- Maven `mvn -B -DskipTests package`: 
+* `-B` ist Batch-Mode (dann fragt er nicht nach, sondern macht einfach)
+* `-DskipTests` zum ignorieren von Tests
+* mit `package` macht er eine Jar-File
+- Eine Jar-File starten: Mit `java -jar [datei]` 
+- Wir versuchen so wenig wie möglich mit eigenen Dockerfiles zu arbeiten und verwenden wenn möglich eine bestehende. 
 
+=== application.properties
+- Ein `devservice`: 
+* Wenn man in den Dependencies eine Datenbank hat, aber man keine Zugangsdaten etc. hat, macht Quarkus anstatt einen Fehler zu geben in einem eigenen Test-Container eine Datenbank auf. 
+* Diese sind temporär, und werden bei Neustart gelöscht neu erstellt. Ist nur zum schnellen ausprobieren.
+- Modes: `prod`, `test`, `dev`. Prefiv per Zeile mit bsp. `%prod.`
 
+=== Docker Build
+- Greift auf *Dockerfile* zu. 
+- Wenn ich in meinem Root-verzeichnis wäre, würde er sich alles rüberkopieren.
 
+=== Ignore Files
+- `.gitignore`: Datei, wo steht, was nicht gepusht werden soll 
+- `.dockerignore`: Man kann Dateien verhindern, vom Docker-Build in den Build Context rüberkopiert zu werden. 
+- Wenn man alles rüberkopieren würde, würde das zu lange dauern, also, nur das kopieren was wir brauchen, weil es sonst viel Geld kosten könnte.
 
+=== Versioning
+==== Semantic Versioning
+- z.B.: `3.7.11`
+- Ist: `major.minor.patch`
+- *Patch*: Nur Bugfixes, kein extra Feature, Backward-Compatibility ist gegeben
+- *Minor*: Extra Feature, aber noch immer Backwards-Compatible
+- *Major*: Änderung(en), bei dem es sein kann, dass alter Code nicht mehr funktioniert
+- https://semver.org/
 
-
-
-
-
-
+==== Calendaric Versioning
+- Anders zu Semantic Versioning wird mit *Kalendardaten* versioniert
+- https://calver.org/
