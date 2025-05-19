@@ -7,12 +7,15 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/hello")
 public class GreetingResource {
 
+    // tag::post-request[]
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public String hello(
             @FormParam("name") String name
     ) {
         Log.info(name);
+        Log.info(name);
         return String.format("Hello, %s!", name);
     }
+    // end::post-request[]
 }
