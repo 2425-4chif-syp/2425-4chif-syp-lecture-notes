@@ -436,6 +436,120 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+pre.rouge table td { padding: 5px; }
+pre.rouge table pre { margin: 0; }
+pre.rouge, pre.rouge .w {
+  color: #24292f;
+  background-color: #f6f8fa;
+}
+pre.rouge .k, pre.rouge .kd, pre.rouge .kn, pre.rouge .kp, pre.rouge .kr, pre.rouge .kt, pre.rouge .kv {
+  color: #cf222e;
+}
+pre.rouge .gr {
+  color: #f6f8fa;
+}
+pre.rouge .gd {
+  color: #82071e;
+  background-color: #ffebe9;
+}
+pre.rouge .nb {
+  color: #953800;
+}
+pre.rouge .nc {
+  color: #953800;
+}
+pre.rouge .no {
+  color: #953800;
+}
+pre.rouge .nn {
+  color: #953800;
+}
+pre.rouge .sr {
+  color: #116329;
+}
+pre.rouge .na {
+  color: #116329;
+}
+pre.rouge .nt {
+  color: #116329;
+}
+pre.rouge .gi {
+  color: #116329;
+  background-color: #dafbe1;
+}
+pre.rouge .kc {
+  color: #0550ae;
+}
+pre.rouge .l, pre.rouge .ld, pre.rouge .m, pre.rouge .mb, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mx {
+  color: #0550ae;
+}
+pre.rouge .sb {
+  color: #0550ae;
+}
+pre.rouge .bp {
+  color: #0550ae;
+}
+pre.rouge .ne {
+  color: #0550ae;
+}
+pre.rouge .nl {
+  color: #0550ae;
+}
+pre.rouge .py {
+  color: #0550ae;
+}
+pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
+  color: #0550ae;
+}
+pre.rouge .o, pre.rouge .ow {
+  color: #0550ae;
+}
+pre.rouge .gh {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .s, pre.rouge .sa, pre.rouge .sc, pre.rouge .dl, pre.rouge .sd, pre.rouge .s2, pre.rouge .se, pre.rouge .sh, pre.rouge .sx, pre.rouge .s1, pre.rouge .ss {
+  color: #0a3069;
+}
+pre.rouge .nd {
+  color: #8250df;
+}
+pre.rouge .nf, pre.rouge .fm {
+  color: #8250df;
+}
+pre.rouge .err {
+  color: #f6f8fa;
+  background-color: #82071e;
+}
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cm, pre.rouge .cp, pre.rouge .cpf, pre.rouge .c1, pre.rouge .cs {
+  color: #6e7781;
+}
+pre.rouge .gl {
+  color: #6e7781;
+}
+pre.rouge .gt {
+  color: #6e7781;
+}
+pre.rouge .ni {
+  color: #24292f;
+}
+pre.rouge .si {
+  color: #24292f;
+}
+pre.rouge .ge {
+  color: #24292f;
+  font-style: italic;
+}
+pre.rouge .gs {
+  color: #24292f;
+  font-weight: bold;
+}
+</style>
+<style>
     pre.rouge .hll {
         background-color: #ffc;
         display: block;
@@ -451,7 +565,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">Thomas Stütz</span><br>
 <span id="revnumber">version 1.0.0,</span>
-<span id="revdate">2025-01-20</span>
+<span id="revdate">2025-05-19</span>
 <br><span id="revremark">Lecture Notes for Courses at HTL Leonding</span>
 </div>
 <div id="toc" class="toc2">
@@ -473,6 +587,29 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_2025_01_20_docker_compose">4. 2025-01-20 - Docker Compose</a>
 <ul class="sectlevel2">
 <li><a href="#_übung_docker_compose">4.1. Übung: docker-compose</a></li>
+</ul>
+</li>
+<li><a href="#_2025_01_27_git_wiederholung">5. 2025-01-27 - Git Wiederholung</a>
+<ul class="sectlevel2">
+<li><a href="#_coding_guidelines">5.1. Coding Guidelines</a></li>
+<li><a href="#_git">5.2. Git</a></li>
+<li><a href="#_git_branching_strategy">5.3. Git Branching Strategy</a></li>
+</ul>
+</li>
+<li><a href="#_2025_03_24">6. 2025-03-24</a>
+<ul class="sectlevel2">
+<li><a href="#_testframework">6.1. Testframework</a></li>
+<li><a href="#_testen_mit_assertj_db">6.2. Testen mit assertj-db</a></li>
+</ul>
+</li>
+<li><a href="#_2025_04_28">7. 2025-04-28</a></li>
+<li><a href="#_2025_05_05">8. 2025-05-05</a>
+<ul class="sectlevel2">
+<li><a href="#_uber_jar">8.1. uber-jar</a></li>
+<li><a href="#_docker_build_context">8.2. Docker Build Context</a></li>
+<li><a href="#_scope_in_pom_xml">8.3. scope in pom.xml</a></li>
+<li><a href="#_versionierung">8.4. Versionierung</a></li>
+<li><a href="#_übung">8.5. Übung</a></li>
 </ul>
 </li>
 </ul>
@@ -689,11 +826,411 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_2025_01_27_git_wiederholung"><a class="anchor" href="#_2025_01_27_git_wiederholung"></a>5. 2025-01-27 - Git Wiederholung</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_coding_guidelines"><a class="anchor" href="#_coding_guidelines"></a>5.1. Coding Guidelines</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://google.github.io/styleguide/javaguide.html" target="_blank" rel="noopener">Google Java Style Guide</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_git"><a class="anchor" href="#_git"></a>5.2. Git</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_git_branching_strategy"><a class="anchor" href="#_git_branching_strategy"></a>5.3. Git Branching Strategy</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/git-branching-strategy.png" alt="git branching strategy">
+</div>
+<div class="title">Figure 1. Source: <a href="https://www.pablogonzalez.io/salesforce-git-branching-strategies/" target="_blank" rel="noopener">Salesforce Git Branching Strategies</a></div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Something important
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="keyseq"><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd></span> - Open Terminal</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+</pre></td><td class="code"><pre><span class="nd">@Path</span><span class="o">(</span><span class="s">"/hello"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GreetingResource</span> <span class="o">{</span>
+
+    <span class="nd">@POST</span>
+    <span class="nd">@Consumes</span><span class="o">(</span><span class="nc">MediaType</span><span class="o">.</span><span class="na">APPLICATION_FORM_URLENCODED</span><span class="o">)</span>
+<span class="hll">    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">hello</span><span class="o">(</span>
+</span>            <span class="nd">@FormParam</span><span class="o">(</span><span class="s">"name"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">name</span> <i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+        <span class="k">return</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"Hello, %s!"</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>FormParam wird verwendet, um HTML-Formular-Elemente einzulesen</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="nc">Unresolved</span> <span class="n">directive</span> <span class="n">in</span> <span class="n">index</span><span class="o">.</span><span class="na">adoc</span> <span class="o">-</span> <span class="nl">include:</span><span class="o">:../../</span><span class="n">labs</span><span class="o">/</span><span class="n">rest</span><span class="o">-</span><span class="n">demo</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">main</span><span class="o">/</span><span class="n">java</span><span class="o">/</span><span class="n">at</span><span class="o">/</span><span class="n">htl</span><span class="o">/</span><span class="nc">GreetingResource</span><span class="o">.</span><span class="na">java</span><span class="o">[</span><span class="n">tag</span><span class="o">=</span><span class="n">post</span><span class="o">-</span><span class="n">request</span><span class="o">]</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="title">Feeding the Werewolves</div>
+<div class="paragraph">
+<p>While werewolves are hardy community members, keep in mind the following dietary concerns:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>They are allergic to cinnamon.</p>
+</li>
+<li>
+<p>More than two glasses of orange juice in 24 hours makes them howl in harmony with alarms and sirens.</p>
+</li>
+<li>
+<p>Celery makes them sad.</p>
+</li>
+</ol>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2025_03_24"><a class="anchor" href="#_2025_03_24"></a>6. 2025-03-24</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="images/v-modell.png" alt="v modell">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/v-modell-scrum.png" alt="v modell scrum">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testframework"><a class="anchor" href="#_testframework"></a>6.1. Testframework</h3>
+<div class="sect3">
+<h4 id="_test_runner"><a class="anchor" href="#_test_runner"></a>6.1.1. Test-Runner</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>jUnit</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_matcher"><a class="anchor" href="#_matcher"></a>6.1.2. Matcher</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>jUnit</p>
+</li>
+<li>
+<p>hamcrest</p>
+</li>
+<li>
+<p>assertj-core und assertj-db</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_testdaten_generieren"><a class="anchor" href="#_testdaten_generieren"></a>6.1.3. Testdaten generieren</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.datafaker.net/" target="_blank" rel="noopener">DataFaker</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_testdatenbank"><a class="anchor" href="#_testdatenbank"></a>6.1.4. Testdatenbank</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.testcontainers.org/" target="_blank" rel="noopener">Testcontainers</a></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/persistieren-mit-jpa.png" alt="persistieren mit jpa">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/tests-in-projekten.png" alt="tests in projekten">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testen_mit_assertj_db"><a class="anchor" href="#_testen_mit_assertj_db"></a>6.2. Testen mit assertj-db</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/erd-rechnung.svg" alt="erd rechnung" width="677" height="123">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/struktur-unit-test.png" alt="struktur unit test">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://assertj.github.io/doc/#assertj-db" target="_blank" rel="noopener">AssertJ-DB</a></p>
+</li>
+</ul>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>assertj-db in pom.xml eintragen</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.assertj<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>assertj-db<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>3.0.0<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>jdbc-Verbindung von unserer Testklasse zur Datenbank erstellen</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>entweder wird eine "normale" jdbc-Verbindung erstellt und in eine AssertDbConnectionFactory übergeben.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="n">conn</span> <span class="o">=</span> <span class="nc">AssertDbConnectionFactory</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">dataSource</span><span class="o">).</span><span class="na">create</span><span class="o">();</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Bei Verwendung von Quarkus wird eine AgroalDatasource injiziert.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@Inject</span>
+<span class="nc">AgroalDataSource</span> <span class="n">ds</span><span class="o">;</span></code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Inhalt einer Tabelle auf der Console ausgeben</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="nc">Table</span> <span class="n">voucherTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Table</span><span class="o">(</span><span class="n">ds</span><span class="o">,</span> <span class="s">"voucher"</span><span class="o">);</span>
+<span class="n">output</span><span class="o">(</span><span class="n">voucherTable</span><span class="o">).</span><span class="na">toConsole</span><span class="o">();</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Testfall ausführen</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">t010_createGroups_Ok</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// Arrange</span>
+    <span class="n">groupRepository</span><span class="o">.</span><span class="na">deleteAll</span><span class="o">();</span>
+
+    <span class="c1">// Act</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Group</span><span class="o">&gt;</span> <span class="n">groups</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="na">createGroups</span><span class="o">(</span><span class="s">"ABCDEF"</span><span class="o">);</span>
+
+    <span class="c1">// Assert</span>
+    <span class="c1">// check table</span>
+    <span class="nc">Table</span> <span class="n">table</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Table</span><span class="o">(</span><span class="n">ds</span><span class="o">,</span> <span class="s">"T_GROUP"</span><span class="o">);</span>
+    <span class="n">output</span><span class="o">(</span><span class="n">table</span><span class="o">).</span><span class="na">toConsole</span><span class="o">();</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">table</span><span class="o">).</span><span class="na">hasNumberOfRows</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">column</span><span class="o">(</span><span class="s">"G_GROUP"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">value</span><span class="o">().</span><span class="na">isEqualTo</span><span class="o">(</span><span class="sc">'A'</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">value</span><span class="o">().</span><span class="na">isEqualTo</span><span class="o">(</span><span class="sc">'B'</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">value</span><span class="o">().</span><span class="na">isEqualTo</span><span class="o">(</span><span class="sc">'C'</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">value</span><span class="o">().</span><span class="na">isEqualTo</span><span class="o">(</span><span class="sc">'D'</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">value</span><span class="o">().</span><span class="na">isEqualTo</span><span class="o">(</span><span class="sc">'E'</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">value</span><span class="o">().</span><span class="na">isEqualTo</span><span class="o">(</span><span class="sc">'F'</span><span class="o">);</span>
+
+    <span class="c1">// check Map</span>
+    <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">groups</span><span class="o">).</span><span class="na">hasSize</span><span class="o">(</span><span class="mi">6</span><span class="o">);</span>
+    <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">groups</span><span class="o">).</span><span class="na">containsOnlyKeys</span><span class="o">(</span><span class="sc">'A'</span><span class="o">,</span> <span class="sc">'B'</span><span class="o">,</span> <span class="sc">'C'</span><span class="o">,</span> <span class="sc">'D'</span><span class="o">,</span> <span class="sc">'E'</span><span class="o">,</span> <span class="sc">'F'</span><span class="o">);</span>
+    <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">groups</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">usingElementComparator</span><span class="o">((</span><span class="n">t1</span><span class="o">,</span> <span class="n">t2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">t1</span><span class="o">.</span><span class="na">groupLetter</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">t2</span><span class="o">.</span><span class="na">groupLetter</span><span class="o">))</span>
+            <span class="o">.</span><span class="na">contains</span><span class="o">(</span>
+                    <span class="k">new</span> <span class="nf">Group</span><span class="o">(</span><span class="sc">'A'</span><span class="o">),</span>
+                    <span class="k">new</span> <span class="nf">Group</span><span class="o">(</span><span class="sc">'B'</span><span class="o">),</span>
+                    <span class="k">new</span> <span class="nf">Group</span><span class="o">(</span><span class="sc">'C'</span><span class="o">),</span>
+                    <span class="k">new</span> <span class="nf">Group</span><span class="o">(</span><span class="sc">'D'</span><span class="o">),</span>
+                    <span class="k">new</span> <span class="nf">Group</span><span class="o">(</span><span class="sc">'E'</span><span class="o">),</span>
+                    <span class="k">new</span> <span class="nf">Group</span><span class="o">(</span><span class="sc">'F'</span><span class="o">)</span>
+            <span class="o">);</span>
+
+<span class="o">}</span></code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2025_04_28"><a class="anchor" href="#_2025_04_28"></a>7. 2025-04-28</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://htl-leonding-college.github.io/quarkus-jar-gh-actions-demo/" class="bare">https://htl-leonding-college.github.io/quarkus-jar-gh-actions-demo/</a></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Frage: Warum müssen Tests immer wieder durchgeführt werden?</p>
+</li>
+<li>
+<p>Antwort: Bei der Entwicklung von neuen Teile der Software kann es passieren, dass bestehende Teile der Software nicht mehr funktionieren., dh sogenannte Nebeneffekte (side-effects) verhindern, das bestehdne Teile der Software weiterhin funktionieren. Man spricht hierbei von <strong>Regressionstests</strong>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2025_05_05"><a class="anchor" href="#_2025_05_05"></a>8. 2025-05-05</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_uber_jar"><a class="anchor" href="#_uber_jar"></a>8.1. uber-jar</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Ein JAR-File,</p>
+<div class="ulist">
+<ul>
+<li>
+<p>das alle Abhängigkeiten enthält</p>
+</li>
+<li>
+<p>sowie ein manifest.xml, in dem die Klasse mit der main-Methode angegeben ist</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_docker_build_context"><a class="anchor" href="#_docker_build_context"></a>8.2. Docker Build Context</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/docker-build-context.png" alt="docker build context">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scope_in_pom_xml"><a class="anchor" href="#_scope_in_pom_xml"></a>8.3. scope in pom.xml</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>scope: <strong>compile</strong> ist der Standardwert, wird in jedes Jar hineinkompiliert</p>
+</li>
+<li>
+<p>scope: <strong>test</strong> wird nur für Tests benötigt</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_versionierung"><a class="anchor" href="#_versionierung"></a>8.4. Versionierung</h3>
+<div class="sect3">
+<h4 id="_semantic"><a class="anchor" href="#_semantic"></a>8.4.1. Semantic</h4>
+<div class="paragraph">
+<p><a href="https://semver.org/" class="bare">https://semver.org/</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_calendaric"><a class="anchor" href="#_calendaric"></a>8.4.2. Calendaric</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://calver.org/" class="bare">https://calver.org/</a></p>
+</li>
+<li>
+<p><a href="https://sensiolabs.com/blog/2025/semantic-vs-calendar-versioning" class="bare">https://sensiolabs.com/blog/2025/semantic-vs-calendar-versioning</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_übung"><a class="anchor" href="#_übung"></a>8.5. Übung</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Erstelle ein dockker image für dein Backend und deploye es in ghcr.io</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2025-01-20 17:36:30 UTC
+Last updated 2025-05-19 07:49:04 UTC
 </div>
 </div>
 </body>
