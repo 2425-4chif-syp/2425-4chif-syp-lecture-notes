@@ -6,12 +6,21 @@ Thomas Stütz
 :sectnums:
 ifndef::imagesdir[:imagesdir: images]
 :toc:
+:source-highlighter: rouge
+:docinfo: shared
 ifdef::backend-html5[]
 // https://fontawesome.com/v4.7.0/icons/
 icon:file-text-o[link=https://github.com/2324-4bhif-wmc/2324-4bhif-wmc-lecture-notes/main/asciidocs/{docname}.adoc] ‏ ‏ ‎
 icon:github-square[link=https://github.com/2324-4bhif-wmc/2324-4bhif-wmc-lecture-notes] ‏ ‏ ‎
 icon:home[link=http://edufs.edu.htl-leonding.ac.at/~t.stuetz/hugo/2021/01/lecture-notes/]
 endif::backend-html5[]
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
 
 == 2024-10-07
 
@@ -92,6 +101,257 @@ Virtualisierung bezeichnet in der Informatik die Nachbildung eines Hard- oder So
 ** quarkus-backend
 
 Im nginx wird eine website gehosted die per rest auf das quarkus-backend zugreift. Ein HTML-Formular wird angezeigt, welches einen Namen entgegennimmt und diesen an das quarkus-backend sendet. Das quarkus-backend gibt den Namen zurück und loggt ihn auf die Console.
+
+
+== 2025-01-27 - Git Wiederholung
+
+=== Coding Guidelines
+
+* https://google.github.io/styleguide/javaguide.html[Google Java Style Guide^]
+
+
+=== Git
+
+=== Git Branching Strategy
+
+.Source: https://www.pablogonzalez.io/salesforce-git-branching-strategies/[Salesforce Git Branching Strategies^]
+image::git-branching-strategy.png[]
+
+
+IMPORTANT: Something important
+
+* kbd:[Ctrl+Alt+T] - Open Terminal
+
+[source,java,linenum,highlight=6]
+----
+@Path("/hello")
+public class GreetingResource {
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public String hello(
+            @FormParam("name") String name // <.>
+    ) {
+        Log.info(name);
+        return String.format("Hello, %s!", name);
+    }
+}
+
+----
+
+<.> FormParam wird verwendet, um HTML-Formular-Elemente einzulesen
+
+
+[source,java]
+----
+include::../../labs/rest-demo/src/main/java/at/htl/GreetingResource.java[tag=post-request]
+----
+
+[IMPORTANT]
+.Feeding the Werewolves
+====
+While werewolves are hardy community members, keep in mind the following dietary concerns:
+
+. They are allergic to cinnamon.
+. More than two glasses of orange juice in 24 hours makes them howl in harmony with alarms and sirens.
+. Celery makes them sad.
+====
+
+
+== 2025-03-24
+
+image::v-modell.png[]
+
+
+image::v-modell-scrum.png[]
+
+
+=== Testframework
+
+==== Test-Runner
+
+* jUnit
+
+==== Matcher
+
+* jUnit
+* hamcrest
+* assertj-core und assertj-db
+
+==== Testdaten generieren
+
+* https://www.datafaker.net/[DataFaker^]
+
+==== Testdatenbank
+
+* https://www.testcontainers.org/[Testcontainers^]
+
+
+image::persistieren-mit-jpa.png[]
+
+image::tests-in-projekten.png[]
+
+
+=== Testen mit assertj-db
+
+[plantuml,erd-rechnung,svg]
+----
+@startuml
+left to right direction
+
+class Kunde {}
+
+class Rechnung {
+}
+
+class Produkt {
+}
+
+Kunde "1" <-- "*" Rechnung : kauft >
+Rechnung "*" <-- "*" Produkt
+(Rechnung,Produkt) .. Rechnungsposition
+
+@enduml
+----
+
+image::struktur-unit-test.png[]
+
+* https://assertj.github.io/doc/#assertj-db[AssertJ-DB^]
+
+//--
+
+
+
+. assertj-db in pom.xml eintragen
++
+[source,xml]
+----
+<dependency>
+  <groupId>org.assertj</groupId>
+  <artifactId>assertj-db</artifactId>
+  <version>3.0.0</version>
+  <scope>test</scope>
+</dependency>
+----
+
+. jdbc-Verbindung von unserer Testklasse zur Datenbank erstellen
+
+.. entweder wird eine "normale" jdbc-Verbindung erstellt und in eine AssertDbConnectionFactory übergeben.
++
+[source,java]
+----
+conn = AssertDbConnectionFactory.of(dataSource).create();
+----
+
+.. Bei Verwendung von Quarkus wird eine AgroalDatasource injiziert.
++
+[source,java]
+----
+@Inject
+AgroalDataSource ds;
+----
+
+. Inhalt einer Tabelle auf der Console ausgeben
++
+[source,java]
+----
+Table voucherTable = new Table(ds, "voucher");
+output(voucherTable).toConsole();
+----
+
+. Testfall ausführen
++
+[source,java]
+----
+@Test
+void t010_createGroups_Ok() {
+    // Arrange
+    groupRepository.deleteAll();
+
+    // Act
+    Map<Character, Group> groups = t.createGroups("ABCDEF");
+
+    // Assert
+    // check table
+    Table table = new Table(ds, "T_GROUP");
+    output(table).toConsole();
+    assertThat(table).hasNumberOfRows(6)
+            .column("G_GROUP")
+            .value().isEqualTo('A')
+            .value().isEqualTo('B')
+            .value().isEqualTo('C')
+            .value().isEqualTo('D')
+            .value().isEqualTo('E')
+            .value().isEqualTo('F');
+
+    // check Map
+    org.assertj.core.api.Assertions.assertThat(groups).hasSize(6);
+    org.assertj.core.api.Assertions.assertThat(groups).containsOnlyKeys('A', 'B', 'C', 'D', 'E', 'F');
+    org.assertj.core.api.Assertions.assertThat(groups.values())
+            .usingElementComparator((t1, t2) -> t1.groupLetter.compareTo(t2.groupLetter))
+            .contains(
+                    new Group('A'),
+                    new Group('B'),
+                    new Group('C'),
+                    new Group('D'),
+                    new Group('E'),
+                    new Group('F')
+            );
+
+}
+----
+
+
+
+== 2025-04-28
+
+https://htl-leonding-college.github.io/quarkus-jar-gh-actions-demo/
+
+
+* Frage: Warum müssen Tests immer wieder durchgeführt werden?
+
+* Antwort: Bei der Entwicklung von neuen Teile der Software kann es passieren, dass bestehende Teile der Software nicht mehr funktionieren., dh sogenannte Nebeneffekte (side-effects) verhindern, das bestehdne Teile der Software weiterhin funktionieren. Man spricht hierbei von *Regressionstests*.
+
+== 2025-05-05
+
+=== uber-jar
+
+* Ein JAR-File,
+** das alle Abhängigkeiten enthält
+** sowie ein manifest.xml, in dem die Klasse mit der main-Methode angegeben ist
+
+
+=== Docker Build Context
+
+image::docker-build-context.png[]
+
+=== scope in pom.xml
+
+* scope: *compile* ist der Standardwert, wird in jedes Jar hineinkompiliert
+
+* scope: *test* wird nur für Tests benötigt
+
+
+=== Versionierung
+
+==== Semantic
+
+https://semver.org/
+
+==== Calendaric
+
+* https://calver.org/
+
+* https://sensiolabs.com/blog/2025/semantic-vs-calendar-versioning
+
+=== Übung
+
+* Erstelle ein dockker image für dein Backend und deploye es in ghcr.io
+
+
+
+
+
 
 
 
