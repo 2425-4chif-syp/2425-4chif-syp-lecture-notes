@@ -102,72 +102,6 @@ Virtualisierung bezeichnet in der Informatik die Nachbildung eines Hard- oder So
 
 Im nginx wird eine website gehosted die per rest auf das quarkus-backend zugreift. Ein HTML-Formular wird angezeigt, welches einen Namen entgegennimmt und diesen an das quarkus-backend sendet. Das quarkus-backend gibt den Namen zurück und loggt ihn auf die Console.
 
-== 2025-03-10 - Github Actions
-
-=== Übung: CI/CD
-
-++++
-<iframe width="560" height="315" src="https://www.youtube.com/embed/R8_veQiYBjI?si=vsttNxZsOWXSnUfY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-++++
-
-=== Github Actions Website
-
-Bei Fragen über Github Actions, auf dieser link:https://docs.github.com/en/actions/about-github-actions/understanding-github-actions[Website] nachlesen.
-
-== 2025-01-27 - Git Wiederholung
-
-=== Coding Guidelines
-
-* https://google.github.io/styleguide/javaguide.html[Google Java Style Guide^]
-
-
-=== Git
-
-=== Git Branching Strategy
-
-.Source: https://www.pablogonzalez.io/salesforce-git-branching-strategies/[Salesforce Git Branching Strategies^]
-image::git-branching-strategy.png[]
-
-
-IMPORTANT: Something important
-
-* kbd:[Ctrl+Alt+T] - Open Terminal
-
-[source,java,linenum,highlight=6]
-----
-@Path("/hello")
-public class GreetingResource {
-
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public String hello(
-            @FormParam("name") String name // <.>
-    ) {
-        Log.info(name);
-        return String.format("Hello, %s!", name);
-    }
-}
-
-----
-
-<.> FormParam wird verwendet, um HTML-Formular-Elemente einzulesen
-
-
-[source,java]
-----
-include::../../labs/rest-demo/src/main/java/at/htl/GreetingResource.java[tag=post-request]
-----
-
-[IMPORTANT]
-.Feeding the Werewolves
-====
-While werewolves are hardy community members, keep in mind the following dietary concerns:
-
-. They are allergic to cinnamon.
-. More than two glasses of orange juice in 24 hours makes them howl in harmony with alarms and sirens.
-. Celery makes them sad.
-====
-
 
 == 2025-03-24
 
@@ -343,93 +277,144 @@ image::docker-build-context.png[]
 * scope: *test* wird nur für Tests benötigt
 
 
-=== Versionierung
 
-==== Semantic
+== 2025-05-05 - Dependencies & Docker
 
-https://semver.org/
+=== Uber-Jar
+- Jar-File
+- Enthält:
+* alle Dependencies
+* `manifest.xml`, in dem die Klasse mit der `main()`-Methode angegeben ist
 
-==== Calendaric
+=== Dependencies
+- In `pom.xml`
+- Unser Programm benutzt Methoden einer Library
+- Wir haben diese Library nicht geschrieben, also ist das für uns nur eine Abhängigkeit (Dependency)
+- *Scope*: Wo gehört diese Dependency dazu, was gehört in mein entgültiges Produkt und was nicht? 
+* `compile` (Standardwert), `provided`, `runtime`, `system`, `test` (nur für Tests)
 
-* https://calver.org/
+=== Marshalling
+- Umwandeln von Java-Objekte in JSON-Objekte 
+- *Unmarshalling*: JSON zu Java
+- Eine Form von _Serialization_
+- In Java mit bspw. Jackson 
 
-* https://sensiolabs.com/blog/2025/semantic-vs-calendar-versioning
-
-=== Übung
-
-* Erstelle ein dockker image für dein Backend und deploye es in ghcr.io
-
-
-
-
-
-
-
-
-
-
-== 05-05-2025 - Mitschrift
-
-=== uber-jar
-
-Ein JAR-File, das alle Abhängigkeiten enthält, sowie ein Manifest XML, in dem die Klasse mit der main-Methode angegeben ist.
-
-=== dependency
-
-Das sind Libraries in dem Methoden drinnen sind, die wir für unser Projekt brauchen, zb. Jackson-Marshalling: konvertieren von java-objekten in json
-
-=== docker-compose
-
-verwendet zum orchestrieren von Containern, es läuft auf einem eigenem Dockernetzwerk, jeder Container hat eine eigene IP, (Frontend: 10.0.0.1, Backend: 10.0.0.2, Datenbank: 10.0.0.3). Sie greifen aufeinander zu mit ihrem Namen, den man in der .yaml vergeben hat. 
+=== Docker
+- Plan ist Java-Code als *Image* in ein Image-Repository (DHCR). 
+- Um das auf unseren Server zu bekommen: Mit Docker-Compose (Erweiterung von Docker-Run) kann man die einzelnen Container koordinieren ("orchestrieren") 
+- Container rennen in einem eigenen *Docker-Netzwerk*. Jeder Container hat eine eigene IP in einem eigenen Addressbereich. 
+- Zuerst lokal ausprobieren, wenn das funktioniert automatisieren wir es mit GitHub Actions.
 
 === Dockerfile
-
-Baut ein Docker-Image. wir versuchen so wenig als möglich mit eigenen Dockerfiles zu arbeiten, bei möglichkeit verwenden wir eine fertige File.
-
-=== Multi-stage-building
-
-Wenn in einer Dockerfile mehrere FROM sind, nennt man es Multistaged.
-
-* *RUN* mvn -B(es gibt keine Rückfragen) -Dskiptests (bei -D kommt danach immer ein Parameter mit einem Befehl) package ( es wird ein JAR-File erstellt)
-
-* *FROM* ladet ein OS oder JAVA runter. mit "as builder" kann man auf "builder" zugreifen.
-
-* *WORKDIR* setzt ein Verzeichnis als Arbeitsverzeichnis
-
-* *COPY* --from=builder /usr/local/src/vehicle/target/vehicle-*-runner.jar /opt/backend.jar. Dieser Befehl nimmt alle Versionen und benennt es in backend.jar um. 
-
-mit java -jar started man eine JAR-File.
-
-=== DEV_SERVICES
-
-startet eigene temporäre testfälle. Auf link:https://testcontainers.com/[Testcontainers] kann man sich dafür container holen. 
+- **Dockerfile**: Baut Docker Image 
+- Im `compose`-Ordner werden alle Projekte per Docker zusammengefasst. 
+- *Multi-Stage*: Mehrere Stufen, z.B. dass wir uns zuerst Maven reinholen, dann nur das `pom.xml` und `src` reinkopieren, 
+- Maven `mvn -B -DskipTests package`: 
+* `-B` ist Batch-Mode (dann fragt er nicht nach, sondern macht einfach)
+* `-DskipTests` zum ignorieren von Tests
+* mit `package` macht er eine Jar-File
+- Eine Jar-File starten: Mit `java -jar [datei]` 
+- Wir versuchen so wenig wie möglich mit eigenen Dockerfiles zu arbeiten und verwenden wenn möglich eine bestehende. 
 
 === application.properties
+- Ein `devservice`: 
+* Wenn man in den Dependencies eine Datenbank hat, aber man keine Zugangsdaten etc. hat, macht Quarkus anstatt einen Fehler zu geben in einem eigenen Test-Container eine Datenbank auf. 
+* Diese sind temporär, und werden bei Neustart gelöscht neu erstellt. Ist nur zum schnellen ausprobieren.
+- Modes: `prod`, `test`, `dev`. Prefiv per Zeile mit bsp. `%prod.`
 
-* *prod-Mode*: Verwendet die gebaute JAR-Datei (z. B. uber-jar oder native).Keine Hot-Reloads oder Dev-Tools.
+=== Docker Build
+- Greift auf *Dockerfile* zu. 
+- Wenn ich in meinem Root-verzeichnis wäre, würde er sich alles rüberkopieren.
 
-* *test-Mode*: Startet die Anwendung in einer isolierten Umgebung für Unit- und Integrationstests. Nutzt Testdaten und test-spezifische Dienste.
+=== Ignore Files
+- `.gitignore`: Datei, wo steht, was nicht gepusht werden soll 
+- `.dockerignore`: Man kann Dateien verhindern, vom Docker-Build in den Build Context rüberkopiert zu werden. 
+- Wenn man alles rüberkopieren würde, würde das zu lange dauern, also, nur das kopieren was wir brauchen, weil es sonst viel Geld kosten könnte.
 
-* *dev-Mode*: Quarkus wird mit Maven gestartet (mvn quarkus:dev). Hot-Reload: Änderungen im Code oder in application.properties wirken sofort. Zusätzliche Dev-Tools und Fehlermeldungen sind aktiviert.
+=== Versioning
+==== Semantic Versioning
+- z.B.: `3.7.11`
+- Ist: `major.minor.patch`
+- *Patch*: Nur Bugfixes, kein extra Feature, Backward-Compatibility ist gegeben
+o- *Minor*: Extra Feature, aber noch immer Backwards-Compatible
+- *Major*: Änderung(en), bei dem es sein kann, dass alter Code nicht mehr funktioniert
+- https://semver.org/
 
-wird mit %mode vor den Statements in der application.properties hinzugefügt. z.B."%prod.quarkus.package.jar.type=uber-jar"
+==== Calendaric Versioning
+- Anders zu Semantic Versioning wird mit *Kalendardaten* versioniert
+- https://calver.org/
 
-=== dockerignore
+=== Docker Container
+- Wenn ein Container am laufen ist, muss man möglicherweise Portfreigaben machen im `docker-compose.yaml`-File.
+- In einem Container reinkommen: `docker exec -it [container] bash`
+=======
+== 2025-03-10 - Github Actions
 
-wir wollen so wenig wie möglich in den build context kopieren, deshalb kann man verhindern das gewisse dateien mitkopiert werden. Beispiel: (" * " , "!** / *.java") es werden nur das src-Verzeichnis und die pom.xml in den docker-context kopiert.
+=== Übung: CI/CD
 
-" * " : Alle files werden ausgewählt. "!** / *.java": Es werden alle nicht .java Files ignoriert. 
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/R8_veQiYBjI?si=vsttNxZsOWXSnUfY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+++++
 
-* docker build: greift auf das Dockerfile zu.
+=== Github Actions Website
 
-<scope> in pom.xml: Gültigkeitsbereich, zb <scope>test<scope> nur in test mode verwendbar. Der Standartwert ist <scope>compile<scope>, wird in jedes Jar hineinkompiliert. 
+Bei Fragen über Github Actions, auf dieser link:https://docs.github.com/en/actions/about-github-actions/understanding-github-actions[Website] nachlesen.
 
-=== Versionierung
+== 2025-01-27 - Git Wiederholung
 
-* *semantische Versionierung*: x.y.z. + 
-*Major*: neue Funktionalitäten die nicht mehr kompatibel mit der vorherigen Version ist. Man muss Clients wahrscheinlich updaten. *Minor*: neue Funktionalitäten, bei denen die kompatibilität nicht gestört ist. *Patch*: kleine Bug fixes. 
+=== Coding Guidelines
 
-* *Calver*: Versionierung mit dem Datum. z.b. 2024.10.07.1 (Jahr.Monat.Tag.Version). Auf link:https://calver.org/[Calver] zu finden
+* https://google.github.io/styleguide/javaguide.html[Google Java Style Guide^]
+
+
+=== Git
+
+=== Git Branching Strategy
+
+.Source: https://www.pablogonzalez.io/salesforce-git-branching-strategies/[Salesforce Git Branching Strategies^]
+image::git-branching-strategy.png[]
+
+
+IMPORTANT: Something important
+
+* kbd:[Ctrl+Alt+T] - Open Terminal
+
+[source,java,linenum,highlight=6]
+----
+@Path("/hello")
+public class GreetingResource {
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public String hello(
+            @FormParam("name") String name // <.>
+    ) {
+        Log.info(name);
+        return String.format("Hello, %s!", name);
+    }
+}
+
+----
+
+<.> FormParam wird verwendet, um HTML-Formular-Elemente einzulesen
+
+
+[source,java]
+----
+include::../../labs/rest-demo/src/main/java/at/htl/GreetingResource.java[tag=post-request]
+----
+
+[IMPORTANT]
+.Feeding the Werewolves
+====
+While werewolves are hardy community members, keep in mind the following dietary concerns:
+
+. They are allergic to cinnamon.
+. More than two glasses of orange juice in 24 hours makes them howl in harmony with alarms and sirens.
+. Celery makes them sad.
+====
+
+
 
 === Adminer
 
@@ -444,3 +429,4 @@ Eine kleine UI für die Datenbank.
 === YAML
 
 * *export bei environment variables*: wichtig für die verwendbarkeit für nachfolgende kommandos. mit ".env" kann man nachschauen welche variablen man hat. 
+
