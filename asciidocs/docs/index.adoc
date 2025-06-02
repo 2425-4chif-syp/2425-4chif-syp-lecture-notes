@@ -443,4 +443,19 @@ Eine kleine UI für die Datenbank.
 
 === YAML
 
-* *export bei environment variables*: wichtig für die verwendbarkeit für nachfolgende kommandos. mit ".env" kann man nachschauen welche variablen man hat. 
+* *export bei environment variables*: wichtig für die verwendbarkeit für nachfolgende kommandos. mit ".env" kann man nachschauen welche variablen man hat.
+
+
+== 2025-06-02
+
+=== Kubernetes (k8s)
+
+image::k8s-uebersicht.png[]
+
+image::k8s-pods.png[]
+
+image::k8s-deployment-to-minikube.png[]
+
+image::k8s-deployment.png[]
+
+
